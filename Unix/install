@@ -1,0 +1,46 @@
+#!/bin/bash
+# Emoji Interpreter Installer v0.1
+
+LOG_DIR=/var/log
+E_XCD=86        # Can't change dir?
+E_NOTROOT=87    # Non-root exit error.
+
+#TODO: Clean up all that gross output
+
+# Ensure that gcc is installed
+if hash gcc 2>/dev/null; then
+  # TODO: Figure out a way to get rid of this, because it's dumb
+  echo "gcc installed"
+else
+  echo "gcc is required to run the emoji interpreter. Please install gcc."
+  exit 1;
+fi
+# Ensure that python or python3 is installed
+if hash python3 2>/dev/null; then
+  echo "python3 installed."
+elif hash python 2>/dev/null; then
+  echo "python installed."
+else
+  echo "python 2.7 or 3 is require to run the emoji interpreter. Please install python3."
+  exit 1;
+fi
+
+# Check if emoji-interpreter is already installed
+if hash emoji 2>/dev/null; then
+  echo -n "emoji already installed. Overwrite with a fresh installation? (y/n) "
+  read response
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    echo "Overwriting..."
+  elif [ "$response" == "n" ] || [ "$response" == "N" ]; then
+    echo "Aborting installation."
+    exit 1;
+  else
+    echo "Invalid entry. Aborting installation."
+    exit 1;
+  fi
+fi
+
+cp bin/* /usr/bin/
+chmod +x /usr/bin/emoji
+
+echo "emoji successfully installed."
