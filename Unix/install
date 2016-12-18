@@ -40,7 +40,9 @@ if hash emoji 2>/dev/null; then
   fi
 fi
 
-cp bin/* /usr/bin/
-chmod +x /usr/bin/emoji
+# exit if there is an error in one of the below commands
+set -e
 
+sudo cp ./../bin/* /usr/bin/
+sudo chmod +x /usr/bin/emoji
 echo "emoji successfully installed."
